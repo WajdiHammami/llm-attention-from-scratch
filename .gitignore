@@ -1,0 +1,30 @@
+
+# Ignore Python bytecode files
+*.pyc
+__pycache__/
+
+# ignore dataset files
+src/data/raw/*
+src/data/processed/*
+
+# Ignore model checkpoints
+checkpoints/
+
+# Ignore logs
+logs/
+
+# Ignore temporary files
+*.tmp
+*.log
+temp/
+
+# Ignore Jupyter Notebook
+notebooks/
+
+# Ignore virtual environment
+venv/
+env/
+.env/
+
+# Ignore pytest cache
+.pytest_cache/
