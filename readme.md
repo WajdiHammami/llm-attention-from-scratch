@@ -208,6 +208,9 @@ src/
     tokenized_dataset.py
     chunked_dataset.py
     collator.py
+  configs/
+    model_config.py
+    train_config.py
 
 scripts/
   train.py
@@ -217,9 +220,7 @@ scripts/
     bench_memory.py
     bench_forward_latency.py
 
-configs/
-  model_config.py
-  train_config.py
+
 
 README.md
 ```
@@ -237,11 +238,11 @@ Supports:
 * Gradient accumulation
 * Resume from checkpoint
 * Logging
+```
 
 Configs should be modified in the training script
 
 ---
-
 # Text Generation
 
 ```
