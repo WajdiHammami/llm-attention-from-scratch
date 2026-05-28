@@ -104,10 +104,7 @@ Used in **PaLM**, **T5**, and many production LLMs for:
 
 ### Interpretation
 
-PyTorch lacks fused grouped-query kernels (FlashAttention-2 style), so MHA/GQA/MQA show similar latency.
-This repo focuses on *correctness and educational clarity*.
-
-In real LLM runtimes, MQA yields **2–4× speedups**.
+**Why similar latency?** PyTorch does not yet ship fused grouped-query kernels (unlike FlashAttention-2 or Triton implementations), so wall-clock latency is comparable across all three variants in this codebase. The memory savings, however, are fully real — GQA uses 50% less KV-cache memory than MHA, and MQA uses 87.5% less. In production runtimes with fused kernels, GQA/MQA yield 2–4× latency improvements on top of the memory gains. This repo isolates the architectural tradeoff from the kernel optimization so both are clearly visible.
 
 ---
 
@@ -148,7 +145,7 @@ Forward pass shows **clear improvements** with GQA/MQA due to:
 * Reduced memory bandwidth
 * Fewer KV tensors per layer
 
-**Why similar latency?** PyTorch does not yet ship fused grouped-query kernels (unlike FlashAttention-2 or Triton implementations), so wall-clock latency is comparable across all three variants in this codebase. The memory savings, however, are fully real — GQA uses 50% less KV-cache memory than MHA, and MQA uses 87.5% less. In production runtimes with fused kernels, GQA/MQA yield 2–4× latency improvements on top of the memory gains. This repo isolates the architectural tradeoff from the kernel optimization so both are clearly visible.
+
 
 ---
 
