@@ -1,19 +1,10 @@
-# Modern LLM Attention From Scratch (PyTorch)
+## Modern LLM Attention From Scratch (PyTorch)
 
-### **MHA • GQA • MQA • RoPE • KV-Cache • Training Pipeline • Benchmark Suite**
+### MHA • GQA • MQA • RoPE • KV-Cache • Training Pipeline • Benchmark Suite
 
-This project implements **modern LLM attention mechanisms from first principles**, including:
+A complete, from-scratch implementation of the attention stack powering modern LLMs — built for correctness, benchmarked for real tradeoffs, and structured as a reference for anyone who wants to understand what actually happens inside a transformer at inference time.
 
-* Multi-Head Attention (MHA)
-* Grouped-Query Attention (GQA) — *LLaMA-2 style*
-* Multi-Query Attention (MQA) — *PaLM-style*
-* Rotary Positional Embedding (RoPE)
-* Efficient KV-cache for autoregressive decoding
-* A complete PyTorch training pipeline
-* Dataset preprocessing (tokenizer, chunking, collator)
-* Benchmark suite for latency, memory, and throughput
-
-The goal is an **educational** repository showing exactly how modern transformers work internally.
+Covers the full stack: attention mechanisms, positional encodings, autoregressive decoding with KV-cache, a training pipeline, and a benchmark suite measuring latency, throughput, and memory across MHA, GQA, and MQA on real hardware.
 
 ---
 
@@ -150,11 +141,14 @@ This is critical for long-context inference.
 
 ### Interpretation
 
+
 Forward pass shows **clear improvements** with GQA/MQA due to:
 
 * Smaller KV projection
 * Reduced memory bandwidth
 * Fewer KV tensors per layer
+
+**Why similar latency?** PyTorch does not yet ship fused grouped-query kernels (unlike FlashAttention-2 or Triton implementations), so wall-clock latency is comparable across all three variants in this codebase. The memory savings, however, are fully real — GQA uses 50% less KV-cache memory than MHA, and MQA uses 87.5% less. In production runtimes with fused kernels, GQA/MQA yield 2–4× latency improvements on top of the memory gains. This repo isolates the architectural tradeoff from the kernel optimization so both are clearly visible.
 
 ---
 
